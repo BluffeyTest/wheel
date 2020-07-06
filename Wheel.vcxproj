@@ -143,6 +143,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Algo.cpp" />
+    <ClCompile Include="Detect.cpp" />
     <ClCompile Include="FileList.cpp" />
     <ClCompile Include="Ransac.cpp" />
     <ClCompile Include="Struct2d.cpp" />
@@ -151,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="Algo.h" />
     <ClInclude Include="Defines.h" />
+    <ClInclude Include="Detect.h" />
     <ClInclude Include="FileList.h" />
     <ClInclude Include="Struct2d.h" />
     <ClInclude Include="Wheel.h" />

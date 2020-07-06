@@ -15,6 +15,7 @@ bool cvMatch(cv::Mat& Temp, string Filename);
 bool cvMatch(cv::Mat& Temp, string Filename, string ownname);
 void getTemps(string TempPath, std::vector<cv::Mat>& Temps);
 bool cvSameSzMatchs(std::vector<cv::Mat>& Temps, string Filename);
+bool FindTen(Mat& Src, Mat& DataMat, std::vector<Point>& vec_Pts, int matchMethod);
 bool slidSumMean(cv::Mat& Src, Mat& Dst, cv::Size sz);
 void findBestPair(cv::Point& p_first_best, cv::Point& p_second_best, cv::Size& sz_first_best, cv::Size& sz_second_best, std::vector<std::pair<double, double>> vpMax, std::vector<std::pair<Point, Point>> vpPoint, std::vector<cv::Size> vDstSize, int matchMethod);
 bool cvMatchs(std::vector<cv::Mat>& Temps, string Filename);

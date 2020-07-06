@@ -73,6 +73,9 @@ void getTemps(string TempPath, std::vector<cv::Mat>& Temps)
 }
 
 
+
+
+
 bool cvSameSzMatchs(std::vector<cv::Mat>& Temps, string Filename)
 {
 	if (Temps.size() == 0)return false;
@@ -97,6 +100,7 @@ bool cvSameSzMatchs(std::vector<cv::Mat>& Temps, string Filename)
 
 	std::vector<Mat> vec_dst;
 	std::vector<cv::Size> vec_dstSize;
+	std::vector<Point> vec_Pts; vec_Pts.clear();
 	vec_dst.clear();
 	vec_dstSize.clear();
 
@@ -216,7 +220,8 @@ bool cvSameSzMatchs(std::vector<cv::Mat>& Temps, string Filename)
 
 
 		Mat mDstMean;
-		slidSumMean(dstImg, mDstMean, Temp.size());
+		slidSumMean(dstImg, mDstMean, Temp.size());//滑动
+		FindTen(img2, dstImg, vec_Pts, matchMethod);//求滑动后的最大值
 		maxVal -= maxVal; maxPoint -= maxPoint;
 		if (matchMethod == TM_SQDIFF || matchMethod == TM_SQDIFF_NORMED)
 		{
@@ -226,7 +231,9 @@ bool cvSameSzMatchs(std::vector<cv::Mat>& Temps, string Filename)
 		{
 			findDoubleMax(mDstMean, maxVal, maxPoint, Mask);//matchLoc = maxLoc;
 		}
-		std::sort(mDstMean.ptr<float>(0), mDstMean.ptr<float>(mDstMean.rows+ mDstMean.cols - 1)/*, IsBiger*/);
+		//sort(mDstMean.ptr<float>(0), mDstMean.ptr<float>((mDstMean.rows-1)* (mDstMean.cols - 1))/*, IsBiger*/);
+		cv::sort(mDstMean, mDstMean, SORT_EVERY_ROW);
+		
 #ifdef _DEBUG
 		if (1)
 		{
@@ -276,6 +283,34 @@ bool cvSameSzMatchs(std::vector<cv::Mat>& Temps, string Filename)
 
 
 
+}
+
+bool FindTen(Mat& Src, Mat& DataMat, std::vector<Point> &vec_Pts,int matchMethod)
+{
+	if (Src.empty())return false;
+	if (DataMat.empty())return false;
+
+	double dVal;
+	Point pt;
+	Mat Mask = Mat::ones(DataMat.size(), CV_8UC1);
+	RNG rng = theRNG();
+	for (int i = 0; i < 30; i++)
+	{
+		if (matchMethod == TM_SQDIFF || matchMethod == TM_SQDIFF_NORMED)
+		{
+			findDoubleMin(DataMat, dVal, pt, Mask);//matchLoc = minLoc;
+		}
+		else
+		{
+			findDoubleMax(DataMat, dVal, pt, Mask);//matchLoc = maxLoc;
+		}
+		roiToMask(Mask, pt, pt + Point(1, 1));
+		vec_Pts.push_back(pt);
+		cv::circle(Src, pt, 2, cv::Scalar(rng(256),  rng(256), rng(256)));
+	}
+	return true;
+
+	
 }
 
 bool IsBiger(float *a, float *b)
