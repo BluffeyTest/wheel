@@ -31,8 +31,9 @@ struct stCircle
 	inline bool Cross(stGenLine& stG) const;//圆与直线相交
 	inline bool Cross(stSegLine& stS) const;//圆与线段相交
 
+	inline double FromLine(stGenLine& stG) const;//圆与线段相交
+
 	friend ostream& operator <<(ostream& os, stCircle &stC);
-	
 	
 };
 

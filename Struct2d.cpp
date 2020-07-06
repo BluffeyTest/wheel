@@ -52,17 +52,25 @@ inline bool stCircle::Cross(stGenLine& stG) const
 }
 
 //待优化
+//这儿应该用跨立、快排处理
 inline bool stCircle::Cross(stSegLine& stS) const
 {
     stGenLine stG = stGenLine(stS);
     double d1 = sqrt(pow(stS.pt1.x - this->ptCenter.x, 2) + pow(stS.pt1.y - this->ptCenter.y, 2));///<线段第一个点到圆心的距离
     double d2 = sqrt(pow(stS.pt2.x - this->ptCenter.x, 2) + pow(stS.pt2.y - this->ptCenter.y, 2));///<线段第二个点到圆心的距离
-    double d3 = stG.FromPoint(this->ptCenter);
+    double d3 = this->FromLine(stG);
     if (d1 < this->dR
         || d2 < this->dR)
         return true;
+    //跨立快排实验部分
     if()
     return false;
+}
+
+inline double stCircle::FromLine(stGenLine& stG) const
+{
+    double dDistance = fabs(stG.da * this->ptCenter.x + stG.db * this->ptCenter.y + stG.dc) / sqrt(pow(stG.da, 2) + pow(stG.db, 2));
+    return dDistance;
 }
 
 stGenLine::stGenLine(Point &p1, Point &p2)
