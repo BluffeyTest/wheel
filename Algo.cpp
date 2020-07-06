@@ -142,7 +142,7 @@ void Algo::FindAllCircles()
 			for (size_t ci = 0; ci < circles.size(); ci++)
 			{
 				Vec3f cc = circles[ci];
-				vCircles.push_back(stCircle(Point(cc[0], cc[1]), cc[2]));
+				//vCircles.push_back(stCircle(cc[0], cc[1]), cc[2].x);
 				//cout << "=" << endl << cc << endl;//查看图像中圆的信息
 				circle(mDst, Point(cc[0], cc[1]), cc[2], 125, 2, LINE_AA);//标记出圆
 				circle(mDst, Point(cc[0], cc[1]), 2, 125, 2, LINE_AA);//标记出圆心(这里把圆的半径设为2，并把标记线的粗细设为2，刚好画出一个实心的圆心)

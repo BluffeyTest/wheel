@@ -8,23 +8,90 @@
 
 using namespace std;
 using namespace cv;
+
+struct stCircle;
+struct stArc;
+struct stSegLine;
+struct stGenLine;
+
+/// <summary>
+/// 圆
+/// 后期如果有需要最好还要兼容浮点型的点，精度才上得去
+/// </summary>
 struct stCircle
 {
 	Point ptCenter;
 	double dR;
 	stCircle():ptCenter(Point(0,0)),dR(0.0){}
-	stCircle(Point pt,double r):ptCenter(pt),dR(r){}
+	stCircle(Point &pt,double r):ptCenter(pt),dR(r){}///<直径圆心生成圆
+	stCircle(Point& pt1, Point& pt2, Point& pt3);///<三点生成圆
 
 	inline bool operator==(const stCircle &stC) const;
+	inline bool Cross(stCircle& stC) const;//圆相交
+	inline bool Cross(stGenLine& stG) const;//圆与直线相交
+	inline bool Cross(stSegLine& stS) const;//圆与线段相交
+
+	friend ostream& operator <<(ostream& os, stCircle &stC);
+	
 	
 };
+
+/// <summary>
+/// 圆弧
+/// </summary>
 struct stArc
 {
 	stCircle Circle;
 	double dStartAngle;//开始角度，弧度制
 	double dEndAngle;	//结束角度弧度制
+
+	stArc():Circle(stCircle()), dStartAngle(0.0), dEndAngle(0.0) {}
+	stArc(stCircle &stC,double ds,double de):Circle(stC),dStartAngle(ds),dEndAngle(de){}
+
+	friend ostream& operator <<(ostream& os, stArc &stArc);
 };
 
+/// <summary>
+/// 两点线段
+/// </summary>
+struct stSegLine
+{
+	Point pt1;
+	Point pt2;
+
+	stSegLine() :pt1(Point(0,0)), pt2(Point(0,0)) {}
+	stSegLine(Point &p1, Point &p2) :pt1(p1), pt2(p2) {}
+
+	inline bool operator ==(stSegLine &stS)const;
+
+	inline bool Cross(stSegLine &stS)const;///<线段与线段相交
+	inline void GetGenLine(stGenLine &stG)const;///<从线段获得直线
+
+
+};
+
+
+/// <summary>
+/// 直线的标准方程
+/// </summary>
+struct stGenLine
+{
+	double da;
+	double db;
+	double dc;
+
+	stGenLine():da(0.0),db(0.0),dc(0.0){}
+	stGenLine(double a,double b,double c):da(a),db(b),dc(c){}
+	stGenLine(Point &p1, Point &p2);
+	stGenLine(stSegLine& stS);
+
+	inline bool Cross(stGenLine &stG) const;///<直线与直线相交
+	inline bool Cross(stSegLine& stS) const;///<直线与线段相交
+	inline double FromPoint(Point &pt) const;///<直线与点的距离
+
+	inline bool operator==(const stGenLine& stG) const;
+	friend ostream& operator << (ostream& os, stGenLine& stG);
+};
 
 
 
