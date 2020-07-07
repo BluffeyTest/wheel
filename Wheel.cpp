@@ -222,6 +222,7 @@ bool cvSameSzMatchs(std::vector<cv::Mat>& Temps, string Filename)
 		Mat mDstMean;
 		slidSumMean(dstImg, mDstMean, Temp.size());//滑动
 		FindTen(img2, dstImg, vec_Pts, matchMethod);//求滑动后的最大值
+		FindCircleMain();
 		maxVal -= maxVal; maxPoint -= maxPoint;
 		if (matchMethod == TM_SQDIFF || matchMethod == TM_SQDIFF_NORMED)
 		{
@@ -284,6 +285,69 @@ bool cvSameSzMatchs(std::vector<cv::Mat>& Temps, string Filename)
 
 
 }
+
+/**
+ * 
+ * 第一步，在一定点密集的地方，向周围扩展一定的距离提取超出一个roi 
+ * 第二步，在该ROI的图像里面做自动阈值化或者手动阈值化
+ * 第三步，在二值化图形里面取点.
+ * 第四步，对点进行拟合圆
+ * 第五步，筛选拟合的圆
+ * 
+ * \param Src 源图像
+ * \param Dst 结果图像
+ * \param vec_Pts 传进来的定位点
+ * \param vec_Circle 得到的圆
+ * \return 
+ */
+bool FindCircleMain(Mat& Src, Mat& Dst, std::vector<Point>& vec_Pts, std::vector<stCircle> vec_Circle)
+{
+	//寻找密集点及其roi
+	FindPointsRoi(); 
+	kmeans();
+	// 对roi进行操作//取点拟合圆
+
+	
+	
+}
+
+
+/**
+ * 将给定的点集进行分类.
+ * 
+ * \param vec_Pts 给定的原始点集
+ * \param minDis 一个类的最小半径
+ * \param maxDis 一个类的最大半径
+ * \param vec_Centers 类的中心点的集合
+ * \param vec_Size 类的roi大小集合
+ * \param ks 分出的类，如果前面个女孩的半径限制为0，则这个是输入参数，否则是输出参数
+ * \return 
+ */
+bool FindPointsRoi(std::vector<Point>& vec_Pts,int minDis,int maxDis,std::vector<Point> &vec_Centers, std::vector<cv::Size> &vec_Size,int &ks)
+{
+	std::vector<int> vec_labels; vec_labels.clear();
+	if (minDis == 0 && maxDis == 0)
+	{
+		kmeans(vec_Pts, ks, vec_labels, TermCriteria(3, 50, 1.0), 10, KMEANS_RANDOM_CENTERS, vec_Centers);
+	}
+	else
+	{
+		vec_labels.clear();
+		std::vector<double> vec_eps;
+		///<选择最好的分类:分8次，选最小误差的
+		for (int k = 2; k < 10; k++)
+		{
+			double eps = kmeans(vec_Pts, k, vec_labels, TermCriteria(3, 50, 1.0), 10, KMEANS_RANDOM_CENTERS, vec_Centers);
+			vec_eps.push_back(eps);
+		}
+
+
+
+	}
+	
+}
+
+
 
 bool FindTen(Mat& Src, Mat& DataMat, std::vector<Point> &vec_Pts,int matchMethod)
 {

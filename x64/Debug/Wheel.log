@@ -46,28 +46,6 @@ E:\Programing\Wheel\Wheel\Algo.cpp(276,7): warning C4267: “参数”: 从“si
 E:\Programing\Wheel\Wheel\Algo.cpp(278,24): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
 E:\Programing\Wheel\Wheel\Algo.cpp(278,47): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
 E:\Programing\Wheel\Wheel\Algo.cpp(282,24): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-  Detect.cpp
-  FileList.cpp
-  Ransac.cpp
-E:\Programing\Wheel\Wheel\Ransac.cpp(24,46): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Ransac.cpp(24,42): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Ransac.cpp(61,32): warning C4018: “<”: 有符号/无符号不匹配
-E:\Programing\Wheel\Wheel\Ransac.cpp(64,36): warning C4018: “<”: 有符号/无符号不匹配
-E:\Programing\Wheel\Wheel\Ransac.cpp(67,98): warning C4244: “参数”: 从“unsigned int”转换到“_Tp”，可能丢失数据
-          with
-          [
-              _Tp=float
-          ]
-E:\Programing\Wheel\Wheel\Ransac.cpp(67,95): warning C4244: “参数”: 从“unsigned int”转换到“_Tp”，可能丢失数据
-          with
-          [
-              _Tp=float
-          ]
-E:\Programing\Wheel\Wheel\Ransac.cpp(120,49): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Ransac.cpp(122,36): warning C4018: “<”: 有符号/无符号不匹配
-E:\Programing\Wheel\Wheel\Ransac.cpp(165,41): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Ransac.cpp(164,43): warning C4390: “;”: 找到空的受控语句；这是否是有意的?
-E:\Programing\Wheel\Wheel\Ransac.cpp(78,24): warning C4101: “endtime”: 未引用的局部变量
   Struct2d.cpp
 E:\Programing\Wheel\Wheel\Struct2d.cpp(25,26): warning C4244: “参数”: 从“double”转换到“_Tp”，可能丢失数据
           with
