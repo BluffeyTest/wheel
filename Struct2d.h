@@ -14,6 +14,9 @@ struct stArc;
 struct stSegLine;
 struct stGenLine;
 
+//两点距离
+inline double Distance(Point &pt1, Point &pt2);
+
 /// <summary>
 /// 圆
 /// 后期如果有需要最好还要兼容浮点型的点，精度才上得去
@@ -31,7 +34,7 @@ struct stCircle
 	inline bool Cross(stGenLine& stG) const;//圆与直线相交
 	inline bool Cross(stSegLine& stS) const;//圆与线段相交
 
-	inline double FromLine(stGenLine& stG) const;//圆与线段相交
+	inline double FromLine(stGenLine& stG) const;//圆与直线距离
 
 	friend ostream& operator <<(ostream& os, stCircle &stC);
 	
@@ -67,8 +70,10 @@ struct stSegLine
 
 	inline bool Cross(stSegLine &stS)const;///<线段与线段相交
 	inline void GetGenLine(stGenLine &stG)const;///<从线段获得直线
+	inline double Length()const;//线段长度
+	inline double FromPoint(Point pt)const;//线段到一个点的最短距离
 
-
+	friend ostream& operator <<(ostream& os, stSegLine& stS);
 };
 
 
@@ -93,42 +98,6 @@ struct stGenLine
 	inline bool operator==(const stGenLine& stG) const;
 	friend ostream& operator << (ostream& os, stGenLine& stG);
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -45,7 +45,7 @@ inline bool stCircle::Cross(stCircle& stC) const
 //圆与直线相交
 inline bool stCircle::Cross(stGenLine& stG) const
 {
-    double dDistance = stG.FromPoint(this->ptCenter);
+    double dDistance = this->FromLine(stG);//stG.FromPoint(this->ptCenter);
     if (this->dR < dDistance)
         return true;
     return false;
@@ -58,12 +58,14 @@ inline bool stCircle::Cross(stSegLine& stS) const
     stGenLine stG = stGenLine(stS);
     double d1 = sqrt(pow(stS.pt1.x - this->ptCenter.x, 2) + pow(stS.pt1.y - this->ptCenter.y, 2));///<线段第一个点到圆心的距离
     double d2 = sqrt(pow(stS.pt2.x - this->ptCenter.x, 2) + pow(stS.pt2.y - this->ptCenter.y, 2));///<线段第二个点到圆心的距离
-    double d3 = this->FromLine(stG);
-    if (d1 < this->dR
-        || d2 < this->dR)
+    //double d3 = this->FromLine(stG);///<圆心到直线的距离
+    double d4 = stS.FromPoint(this->ptCenter);
+    if (d1 < this->dR && d2 < this->dR)//都在圆内
+        return false;
+	if (min(d1, d2) < this->dR && max(d1, d2) > this->dR)//一个圆内一个圆外
+		return true;
+    if (d4<this->dR && max(d1, d2)>this->dR)//线上最近点在圆内，最远点在圆外
         return true;
-    //跨立快排实验部分
-    if()
     return false;
 }
 
@@ -114,6 +116,24 @@ inline bool stSegLine::operator==(stSegLine& stS) const
     return false;
 }
 
+//快排跨立实验
+inline bool stSegLine::Cross(stSegLine& stS) const
+{
+    if (!(min(this->pt1.x, this->pt2.x) <= max(stS.pt1.x, stS.pt2.x)
+        && min(stS.pt1.y, stS.pt2.y) <= max(this->pt1.y, this->pt2.y)
+        && min(stS.pt1.x, stS.pt2.x) <= max(this->pt1.x, this->pt2.x)
+        && min(this->pt1.y, this->pt2.y) <= max(stS.pt1.y, stS.pt2.y)))
+        return false;
+
+    double u, v, w, z;
+    u = (stS.pt1.x - this->pt1.x) * (this->pt2.y - this->pt1.y) - (this->pt2.x - this->pt1.x) * (stS.pt1.y - this->pt1.y);
+    v = (stS.pt2.x - this->pt1.x) * (this->pt2.y - this->pt1.y) - (this->pt2.x - this->pt1.x) * (stS.pt2.y - this->pt1.y);
+    w = (this->pt1.x - stS.pt1.x) * (stS.pt2.y - stS.pt1.y) - (stS.pt2.x - stS.pt1.x) * (this->pt1.y - stS.pt1.y);
+    z = (this->pt2.x - stS.pt1.x) * (stS.pt2.y - stS.pt1.y) - (stS.pt2.x - stS.pt1.x) * (this->pt2.y - stS.pt1.y);
+
+    return (u * v <= 0.00000001 && w * z <= 0.00000001);
+}
+
 inline void stSegLine::GetGenLine(stGenLine& stG) const
 {
     stG.da = (double)(this->pt1.y - this->pt2.y);
@@ -121,4 +141,55 @@ inline void stSegLine::GetGenLine(stGenLine& stG) const
 	stG.dc = (double)(this->pt1.x * this->pt2.y - this->pt2.x * this->pt1.y);
 }
 
+inline double stSegLine::Length() const
+{
+    return sqrt(pow(this->pt1.x - this->pt2.x, 2) + pow(this->pt1.y - this->pt2.y, 2));;
+}
 
+inline double stSegLine::FromPoint(Point pt) const
+{
+    double r = ((pt.x - this->pt1.x) * (this->pt2.x - this->pt1.x) + (pt.y - this->pt1.y) * (this->pt2.y - this->pt1.y)) / this->Length();
+    double dAP2 = pow(this->pt1.x - pt.x, 2) + pow(this->pt1.y - pt.y, 2);
+    double dBP2 = pow(pt.x - this->pt2.x, 2) + pow(pt.y - this->pt2.y, 2);
+    if (r <= 0) return sqrt(dAP2);  //第一种情况, 返回AP的长
+    else if (r >= 1) return sqrt(dBP2); //第二种情况, 返回BP的长度
+    else                           //第三种情况, 返回PC的长度
+    {
+        double AC = r * this->Length();  //先求AC的长度,(AC=r*|AB|)
+        return sqrt(dAP2 - AC * AC); //再勾股定理返回PC的长度
+    }
+    return 0.0;
+}
+
+inline double Distance(Point &pt1, Point &pt2)
+{
+    return sqrt(pow(pt1.x - pt2.x, 2) + pow(pt1.y - pt2.y, 2));
+}
+
+ostream& operator<<(ostream& os, stCircle& stC)
+{
+    os << "Circle: " << "Center = (" << stC.ptCenter.x << ", " << stC.ptCenter.y << "), R = " << stC.dR;
+    return os;
+}
+
+ostream& operator<<(ostream& os, stArc& stArc)
+{
+    os << "Arc: " << stArc.Circle << ", startangle = " << stArc.dStartAngle << ", EndAngle = " << stArc.dEndAngle;
+    return os;
+}
+
+ostream& operator<<(ostream& os, stSegLine& stS)
+{
+    os << "SegLine: " << "(" << stS.pt1.x << ", " << stS.pt1.y << ")----( " << stS.pt2.x << ", " << stS.pt2.y << ")";
+    return os;
+}
+
+ostream& operator<<(ostream& os, stGenLine& stG)
+{
+    os << "GenLine: " << stG.da << " * x ";
+    stG.db < 0 ? os << stG.db : os << "+ " << stG.db; 
+    os << " * y ";
+    stG.dc < 0 ? os << stG.dc : os << "+ " << stG.dc;
+    os << " = 0.0";
+    return os;
+}
