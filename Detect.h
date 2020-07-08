@@ -2,7 +2,6 @@
 #ifndef DETECT_H
 #define DETECT_H
 
-
 class Detect
 {
 public:
@@ -10,6 +9,7 @@ public:
 	~Detect();
 
 private:
+	std::vector<Point> vec_Points;///
 
 };
 
