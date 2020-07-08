@@ -154,6 +154,7 @@
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Detect.h" />
     <ClInclude Include="FileList.h" />
+    <ClInclude Include="Ransac.h" />
     <ClInclude Include="Struct2d.h" />
     <ClInclude Include="Wheel.h" />
   </ItemGroup>

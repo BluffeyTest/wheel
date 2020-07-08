@@ -9,7 +9,7 @@ public:
 	~Detect();
 
 private:
-	std::vector<Point> vec_Points;///
+	
 
 };
 
