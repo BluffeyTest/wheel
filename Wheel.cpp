@@ -15,7 +15,10 @@
 using namespace std;
 using namespace cv;
 
+//临时用的宏，改类后要去掉
+const int MATCH_METHOD = 0;
 int g_j = 0;
+
 
 void testConnectAnalyze(cv::Mat& src);
 
@@ -88,7 +91,7 @@ bool cvSameSzMatchs(std::vector<cv::Mat>& Temps, string Filename)
 	cv::Mat dstImg;
 	dstImg.create(img1.dims, img1.size, img1.type());
 	
-	int matchMethod = 5;
+	int matchMethod = MATCH_METHOD;
 
 	std::vector<std::pair<double, double>> vpMax;
 	std::vector<std::pair<Point, Point>> vpPoint;
@@ -103,6 +106,8 @@ bool cvSameSzMatchs(std::vector<cv::Mat>& Temps, string Filename)
 	std::vector<Point> vec_Pts; vec_Pts.clear();
 	vec_dst.clear();
 	vec_dstSize.clear();
+
+	std::vector<stCircle> vec_Circles; vec_Circles.clear();
 
 	//把所有模板依次匹配，取分高的组成一组，能够更好看，但是其实没卵用
 	//std::vector<cv::Size> vecTempSize;
@@ -222,7 +227,7 @@ bool cvSameSzMatchs(std::vector<cv::Mat>& Temps, string Filename)
 		Mat mDstMean;
 		slidSumMean(dstImg, mDstMean, Temp.size());//滑动
 		FindTen(img2, dstImg, vec_Pts, matchMethod);//求滑动后的最大值
-		FindCircleMain();
+		
 		maxVal -= maxVal; maxPoint -= maxPoint;
 		if (matchMethod == TM_SQDIFF || matchMethod == TM_SQDIFF_NORMED)
 		{
@@ -254,6 +259,10 @@ bool cvSameSzMatchs(std::vector<cv::Mat>& Temps, string Filename)
 	}
 	szMean.height /= Temps.size();
 	szMean.width /= Temps.size();
+
+	FindCircleMain(img2, img2, vec_Pts, vec_Circles, szMean);//根据点得到所有圆
+
+	
 
 	
 	cv::Point p_first_best(0, 0), p_second_best(0, 0);
@@ -300,16 +309,145 @@ bool cvSameSzMatchs(std::vector<cv::Mat>& Temps, string Filename)
  * \param vec_Circle 得到的圆
  * \return 
  */
-bool FindCircleMain(Mat& Src, Mat& Dst, std::vector<Point>& vec_Pts, std::vector<stCircle> vec_Circle)
+bool FindCircleMain(Mat& Src, Mat& Dst, std::vector<Point>& vec_Pts, std::vector<stCircle> &vec_Circle,cv::Size sz)
 {
+	//检查
+	if (Src.empty() || Dst.empty() || vec_Pts.size() == 0)return false;
 	//寻找密集点及其roi
-	FindPointsRoi(); 
-	kmeans();
+	std::vector<Point> vec_Centers;
+	std::vector<Size> vec_Size;
+	int nk(10);
+	FindPointsRoi(vec_Pts,0,0, vec_Centers, vec_Size,nk);
+	drawPointsRoi(Src, Dst, vec_Centers);
+#ifdef _DEBUG
+	if (1)
+	{//存图
+		string spath = "E:\\Pictures\\First\\Temp\\hot_ten\\roiCenter";
+		MkDir(spath);
+		spath = spath + "\\" + to_string(MATCH_METHOD);
+		MkDir(spath);
+		cv::imwrite(spath + "\\" + to_string(g_j++) + ".jpg", Dst);
+	}
+#endif // _DEBUG
+
 	// 对roi进行操作//取点拟合圆
+	//std::vector<Mat> vec_ROI;
+	FindROICircle(Src, Dst,vec_Centers, vec_Circle, sz);
 
 	
-	
+	return true;
 }
+
+/**
+ * 根据挑选出的圆心，在这个圆心一定范围内取roi做二值化，拟合圆.
+ * 
+ * \param vec_Centers
+ * \param vecCircle
+ * \param sz
+ * \return 
+ */
+bool FindROICircle(Mat& Src, Mat& Dst,std::vector<Point>& vec_Centers, std::vector<stCircle>& vecCircle, cv::Size sz)
+{
+	//检查
+	if (Src.empty() || Dst.empty() || Src.size() != Dst.size())return false;
+
+	Mat mROI;
+	std::vector<Point> vec_EdgePoints;
+	for (size_t i = 0; i < vec_Centers.size(); i++)
+	{
+		mROI.release();//释放
+		Point ptTopLeft = vec_Centers[i]  - Point(sz.width/2,sz.height/2) - Point(20,20);
+		Point ptButRight = vec_Centers[i] + Point(sz.width / 2, sz.height / 2) + Point(20, 20);
+		//roi区域坐标校正
+		int maxCol = Src.cols - 1, maxRows = Src.rows - 1;
+		ptTopLeft.x = ptTopLeft.x > 0 ? ptTopLeft.x : 0;	ptTopLeft.x = ptTopLeft.x < maxCol ? ptTopLeft.x : maxCol;
+		ptTopLeft.y = ptTopLeft.y > 0 ? ptTopLeft.y : 0;	ptTopLeft.y = ptTopLeft.y < maxRows ? ptTopLeft.y : maxRows;
+		ptButRight.x = ptButRight.x > 0 ? ptButRight.x : 0;	ptButRight.x = ptButRight.x < maxCol ? ptButRight.x : maxCol;
+		ptButRight.y = ptButRight.y > 0 ? ptButRight.y : 0;	ptButRight.y = ptButRight.y < maxRows ? ptButRight.y : maxRows;
+		mROI = Src(Rect(ptTopLeft, ptButRight));
+
+		//自动阈值二值化（会慢一些）
+		Mat mBinary,mROIth,mROICanny;
+		cvtColor(mROI, mBinary, COLOR_BGR2GRAY);
+		GaussianBlur(mBinary, mBinary, Size(3, 3), 1.5, 1.5);
+		threshold(mBinary, mROICanny, 0, 255, THRESH_OTSU); 
+
+		//取点
+		vec_EdgePoints.clear();
+		bool bRsultEdge = GetPointsFromCanny(mROICanny, vec_EdgePoints);
+		//拟合
+		if (bRsultEdge == true)
+		{
+
+		}
+
+		//判断
+		
+		                                                                                                                                                                                                                      
+	}
+
+	return true;
+}
+/**
+ * 从canny图像中取出边缘点.
+ * 
+ * \param Canny Canny图像
+ * \param vec_Points 取出的点集
+ * \return false 输入为空
+ *			true 提取成功
+ */
+bool GetPointsFromCanny(Mat& Canny, std::vector<Point>& vec_Points)
+{
+	return GetPointsFromBinary(Canny, vec_Points);
+}
+
+/**
+ * 从二值图像中取出不为零的点.
+ * 
+ * \param Binary 二值图像
+ * \param vec_Points 取出的点集
+ * \return false 输入为空
+ *			true 提取成功
+ */
+bool GetPointsFromBinary(Mat& Binary, std::vector<Point> &vec_Points)
+{
+	//检查
+	if (Binary.empty())return false;
+	vec_Points.clear();
+	for (size_t x = 0; x < Binary.cols; x++)
+	{
+		for (size_t y = 0; y < Binary.rows; y++)
+		{
+			if (Binary.at<uchar>(y, x) > 0)
+			{
+				vec_Points.push_back(Point(x, y));
+			}
+		}
+	}
+	
+	return true;
+
+}
+
+/**
+ * 把聚类的圆心画出来.
+ * 
+ * \param Src 原图，暂时没有使用
+ * \param Dst 结果图
+ * \param vec_Centers 聚类中心点的坐标
+ * \return 
+ */
+bool drawPointsRoi(Mat& Src, Mat& Dst, std::vector<Point>& vec_Centers)
+{
+	//检查
+	if (Src.empty() || Dst.empty() || Src.size() != Dst.size())return false;
+	for (size_t i = 0; i < vec_Centers.size(); i++)
+	{
+		circle(Dst, vec_Centers[i], 2, Scalar(255, 0, 0), 2);
+	}
+	return true;
+}
+
 
 
 /**
@@ -325,10 +463,39 @@ bool FindCircleMain(Mat& Src, Mat& Dst, std::vector<Point>& vec_Pts, std::vector
  */
 bool FindPointsRoi(std::vector<Point>& vec_Pts,int minDis,int maxDis,std::vector<Point> &vec_Centers, std::vector<cv::Size> &vec_Size,int &ks)
 {
+	//检查
+	if (vec_Pts.size() == 0)return false;
+	Mat mCenters, mLabels;
+	TermCriteria Term = TermCriteria(3, 50, 1.0);
+	vec_Centers.clear();
+
+	int sampleCount = vec_Pts.size();
+	Mat points(sampleCount, 1, CV_32FC2/*CV_32SC2*/);
+
+	
+	for (int y = 0; y < sampleCount; y++) {
+		//Vec2b bgr = src.at<Vec2b>(row, col);
+		points.at<float>(y, 0) = (float)vec_Pts[y].x;//static_cast<int>(bgr[0]);
+		points.at<float>(y, 1) = (float)vec_Pts[y].y;// static_cast<int>(bgr[1]);
+		//points.at<float>(index, 2) = static_cast<int>(bgr[2]);
+	}
+	
+#ifdef _DEBUG
+	if (0)
+	{
+		double min(0.0),max(0.0);
+		cv::Point ptMIn, ptMax;
+		cv::minMaxLoc(points, &min, &max, &ptMIn, &ptMax);
+	}
+#endif // _DEBUG
+
+	
+
 	std::vector<int> vec_labels; vec_labels.clear();
 	if (minDis == 0 && maxDis == 0)
 	{
-		kmeans(vec_Pts, ks, vec_labels, TermCriteria(3, 50, 1.0), 10, KMEANS_RANDOM_CENTERS, vec_Centers);
+		if (ks < 2 || ks>30)return false;
+		kmeans(points/*vec_Pts*/, ks, mLabels/*vec_labels*/, Term, 10, KMEANS_RANDOM_CENTERS, mCenters/*vec_Centers*/);
 	}
 	else
 	{
@@ -337,13 +504,24 @@ bool FindPointsRoi(std::vector<Point>& vec_Pts,int minDis,int maxDis,std::vector
 		///<选择最好的分类:分8次，选最小误差的
 		for (int k = 2; k < 10; k++)
 		{
-			double eps = kmeans(vec_Pts, k, vec_labels, TermCriteria(3, 50, 1.0), 10, KMEANS_RANDOM_CENTERS, vec_Centers);
+			double eps = kmeans(points/*vec_Pts*/, k, mLabels/*vec_labels*/, Term, 10, KMEANS_RANDOM_CENTERS, mCenters/*vec_Centers*/);
+			//double eps = kmeans(vec_Pts, k, vec_labels, TermCriteria(3, 50, 1.0), 10, KMEANS_RANDOM_CENTERS, vec_Centers);
 			vec_eps.push_back(eps);
 		}
-
-
-
+		///<选择误差最小的部分
+		for(size_t i = 0;i< vec_eps.size();i++)
+		{
+		}
 	}
+	
+
+	//返回结果部分
+	for (size_t i = 0; i < mCenters.rows; i++)
+	{
+		Point pt(mCenters.at<float>(i, 0)+0.5, mCenters.at<float>(i, 1)+0.5);
+		vec_Centers.push_back(pt);
+	}
+
 	
 }
 
