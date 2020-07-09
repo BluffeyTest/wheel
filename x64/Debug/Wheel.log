@@ -49,7 +49,7 @@ E:\Programing\Wheel\Wheel\Algo.cpp(282,24): warning C4267: “参数”: 从“s
   Detect.cpp
   FileList.cpp
   Ransac.cpp
-E:\Programing\Wheel\Wheel\Ransac.cpp(79,44): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Ransac.cpp(89,44): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
   Struct2d.cpp
 E:\Programing\Wheel\Wheel\Struct2d.cpp(25,26): warning C4244: “参数”: 从“double”转换到“_Tp”，可能丢失数据
           with
@@ -176,12 +176,7 @@ E:\Programing\Wheel\Wheel\Wheel.cpp(1342,19): warning C4244: “=”: 从“doub
 E:\Programing\Wheel\Wheel\Wheel.cpp(1343,29): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
 E:\Programing\Wheel\Wheel\Wheel.cpp(1426,106): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
   正在生成代码...
-E:\Programing\Wheel\Wheel\Wheel.cpp(296): warning C4715: “cvSameSzMatchs”: 不是所有的控件路径都返回值
 E:\Programing\Wheel\Wheel\Wheel.cpp(536): warning C4715: “FindPointsRoi”: 不是所有的控件路径都返回值
+E:\Programing\Wheel\Wheel\Wheel.cpp(296): warning C4715: “cvSameSzMatchs”: 不是所有的控件路径都返回值
 E:\Programing\Wheel\Wheel\Wheel.cpp(764): warning C4715: “cvMatchs”: 不是所有的控件路径都返回值
-Ransac.obj : error LNK2019: 无法解析的外部符号 "public: double __cdecl stCircle::FromPoint(class cv::Point_<int> &)const " (?FromPoint@stCircle@@QEBANAEAV?$Point_@H@cv@@@Z)，函数 "private: int __cdecl Ransac::InnnerCircleNums(void)" (?InnnerCircleNums@Ransac@@AEAAHXZ) 中引用了该符号
-Ransac.obj : error LNK2019: 无法解析的外部符号 "public: double __cdecl stSegLine::FromPoint(class cv::Point_<int>)const " (?FromPoint@stSegLine@@QEBANV?$Point_@H@cv@@@Z)，函数 "private: int __cdecl Ransac::InnnerLineNums(void)" (?InnnerLineNums@Ransac@@AEAAHXZ) 中引用了该符号
-Ransac.obj : error LNK2019: 无法解析的外部符号 "public: bool __cdecl Ransac::FitSegLine(void)" (?FitSegLine@Ransac@@QEAA_NXZ)，函数 "public: bool __cdecl Ransac::Run(void)" (?Run@Ransac@@QEAA_NXZ) 中引用了该符号
-Ransac.obj : error LNK2019: 无法解析的外部符号 "public: bool __cdecl Ransac::FitSegLines(void)" (?FitSegLines@Ransac@@QEAA_NXZ)，函数 "public: bool __cdecl Ransac::Run(void)" (?Run@Ransac@@QEAA_NXZ) 中引用了该符号
-Ransac.obj : error LNK2019: 无法解析的外部符号 "public: bool __cdecl Ransac::FitCircles(void)" (?FitCircles@Ransac@@QEAA_NXZ)，函数 "public: bool __cdecl Ransac::Run(void)" (?Run@Ransac@@QEAA_NXZ) 中引用了该符号
-E:\Programing\Wheel\x64\Debug\Wheel.exe : fatal error LNK1120: 5 个无法解析的外部命令
+  Wheel.vcxproj -> E:\Programing\Wheel\x64\Debug\Wheel.exe

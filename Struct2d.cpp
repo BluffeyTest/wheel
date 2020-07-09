@@ -75,7 +75,7 @@ inline double stCircle::FromLine(stGenLine& stG) const
     return dDistance;
 }
 
-inline double stCircle::FromPoint(Point& pt) const
+/*inline*/ double stCircle::FromPoint(Point& pt) const
 {
     return sqrt(pow(this->ptCenter.x - pt.x, 2) + pow(this->ptCenter.y - pt.y, 2));
 }
@@ -151,7 +151,7 @@ inline double stSegLine::Length() const
     return sqrt(pow(this->pt1.x - this->pt2.x, 2) + pow(this->pt1.y - this->pt2.y, 2));;
 }
 
-inline double stSegLine::FromPoint(Point pt) const
+/*inline*/ double stSegLine::FromPoint(Point pt) const
 {
     double r = ((pt.x - this->pt1.x) * (this->pt2.x - this->pt1.x) + (pt.y - this->pt1.y) * (this->pt2.y - this->pt1.y)) / this->Length();
     double dAP2 = pow(this->pt1.x - pt.x, 2) + pow(this->pt1.y - pt.y, 2);
@@ -166,7 +166,7 @@ inline double stSegLine::FromPoint(Point pt) const
     return 0.0;
 }
 
-inline double Distance(Point &pt1, Point &pt2)
+/*inline*/ double Distance(Point &pt1, Point &pt2)
 {
     return sqrt(pow(pt1.x - pt2.x, 2) + pow(pt1.y - pt2.y, 2));
 }

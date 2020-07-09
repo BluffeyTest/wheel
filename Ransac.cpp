@@ -60,6 +60,16 @@ bool Ransac::Run()
     return false;
 }
 
+bool Ransac::FitSegLine()
+{
+    return false;
+}
+
+
+bool Ransac::FitSegLines()
+{
+    return false;
+}
 
 /**
  * RansacÄâºÏÔ².
@@ -111,6 +121,16 @@ bool Ransac::FitCircle()
 
     //
     return true;
+}
+
+bool Ransac::FitCircles()
+{
+    return false;
+}
+
+bool Ransac::GetResult()
+{
+    return false;
 }
 
 bool Ransac::GetResultCircle(stCircle& stC)
@@ -197,7 +217,7 @@ int Ransac::InnnerCircleNums()
     int sum(0);
     for (size_t i = 0; i < m_vec_Points.size(); i++)
     {
-        double d = m_CurrentCircle.FromPoint(m_vec_Points[i]);
+        double d = Distance(m_CurrentCircle.ptCenter, m_vec_Points[i]);//m_CurrentCircle.FromPoint(m_vec_Points[i]);
         if ( fabs(d- m_Circle.dR)< m_Para.dInner)
         {
             sum++;

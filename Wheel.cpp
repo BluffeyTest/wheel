@@ -370,7 +370,8 @@ bool FindROICircle(Mat& Src, Mat& Dst,std::vector<Point>& vec_Centers, std::vect
 		Mat mBinary,mROIth,mROICanny;
 		cvtColor(mROI, mBinary, COLOR_BGR2GRAY);
 		GaussianBlur(mBinary, mBinary, Size(3, 3), 1.5, 1.5);
-		threshold(mBinary, mROICanny, 0, 255, THRESH_OTSU); 
+		threshold(mBinary, mBinary, 0, 255, THRESH_OTSU);
+		Canny(mBinary, mROICanny,125,255);
 
 		//取点
 		vec_EdgePoints.clear();
