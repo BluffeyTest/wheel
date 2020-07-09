@@ -25,6 +25,10 @@ typedef struct stRansacPara
 	double dInner;//内点距离
 	double dScale;//最小拟合点数比例，若为0，则取最大，否则一般取至少0.5
 	int nIters;//最大迭代次数
+
+	stRansacPara():type(RASANC_SEG_LINE), dInner(2.0), dScale(0.9), nIters(50){}
+	stRansacPara(emFitType t, double in, double s, int it):type(t), dInner(in), dScale(s), nIters(it) {}
+
 }RansacPara;
 
 class Ransac
@@ -38,6 +42,9 @@ private:
 
 	std::vector<Point> m_vec_SrcPoints;///原始点集
 	std::vector<Point> m_vec_Points;///实际处理过程当中的点集
+	std::vector<uchar> m_vec_bMask;//存储对应的点是不是符合当前拟合的模型
+	std::vector<uchar> m_vec_bSampleMask;//存储对应的点是不是已经充当过采样点
+
 
 	std::vector<stCircle> m_vec_Circles;///检测出来的圆
 	std::vector<stSegLine> m_vec_SegLines;//检测出来的线段
@@ -47,6 +54,9 @@ private:
 
 	stCircle m_CurrentCircle;//正在检测的单个圆
 	stSegLine m_CurrentSegLine;//正在检测的单个线段
+
+	bool m_bCircle;//圆检测是否成功
+	bool m_bSegLine;//直线检测是否成功
 
 	//bool m_bVecCircle; //是否返回多个圆
 	//bool m_bVecSegLine;//是否返回多个线段
@@ -62,6 +72,14 @@ public:
 	bool FitCircles();//拟合多个圆
 
 	bool GetResult();//这个写法不好，传出不单一
+	bool GetResultCircle(stCircle& stC);
+
+private:
+	int SumvUcharVctor(vector<uchar> &vec_s);
+	bool RandIndex(int ndataLen, vector<int>& vec_Index);
+	int InnnerNums();//判断当前的模型的在内点距离内的点数
+	int InnnerLineNums();//判断当前的模型的在内点距离内的点数
+	int InnnerCircleNums();//判断当前的模型的在内点距离内的点数
 };
 
 

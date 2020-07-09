@@ -376,9 +376,19 @@ bool FindROICircle(Mat& Src, Mat& Dst,std::vector<Point>& vec_Centers, std::vect
 		vec_EdgePoints.clear();
 		bool bRsultEdge = GetPointsFromCanny(mROICanny, vec_EdgePoints);
 		//拟合
+		RansacPara stR(stRansacPara::RASANC_SEG_CIRCLE, 3.0, 0.5, 50);
+		stCircle Circle;
 		if (bRsultEdge == true)
 		{
+			Ransac ra;
+			ra.InputPoints(vec_EdgePoints);
+			ra.InputPara(stR);
+			ra.Run();
 
+			if (ra.GetResultCircle(Circle) && Circle.dR > 35)
+			{
+				vecCircle.push_back(Circle);
+			}
 		}
 
 		//判断

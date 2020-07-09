@@ -4,6 +4,7 @@
 #define WHEEL_H
 #include"Algo.h"
 #include"Struct2d.h"
+#include"Ransac.h"
 bool IsBiger(float *a, float *b);
 
 void SingleConnect(cv::Mat grayImage, cv::Mat* dst);
@@ -17,6 +18,8 @@ void getTemps(string TempPath, std::vector<cv::Mat>& Temps);
 bool cvSameSzMatchs(std::vector<cv::Mat>& Temps, string Filename);
 bool FindCircleMain(Mat& Src, Mat& Dst, std::vector<Point>& vec_Pts, std::vector<stCircle>& vec_Circle, cv::Size sz);
 bool FindROICircle(Mat& Src, Mat& Dst, std::vector<Point>& vec_Centers, std::vector<stCircle>& vecCircle, cv::Size sz);
+bool GetPointsFromCanny(Mat& Canny, std::vector<Point>& vec_Points);
+bool GetPointsFromBinary(Mat& Binary, std::vector<Point>& vec_Points);
 bool drawPointsRoi(Mat& Src, Mat& Dst, std::vector<Point>& vec_Centers);
 bool FindPointsRoi(std::vector<Point>& vec_Pts, int minDis, int maxDis, std::vector<Point>& vec_Centers, std::vector<cv::Size>& vec_Size, int& ks);
 bool FindTen(Mat& Src, Mat& DataMat, std::vector<Point>& vec_Pts, int matchMethod);

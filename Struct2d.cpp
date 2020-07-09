@@ -75,6 +75,11 @@ inline double stCircle::FromLine(stGenLine& stG) const
     return dDistance;
 }
 
+inline double stCircle::FromPoint(Point& pt) const
+{
+    return sqrt(pow(this->ptCenter.x - pt.x, 2) + pow(this->ptCenter.y - pt.y, 2));
+}
+
 stGenLine::stGenLine(Point &p1, Point &p2)
 {
     this->da =(double) (p1.y - p2.y);
