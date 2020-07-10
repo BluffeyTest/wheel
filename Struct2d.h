@@ -30,6 +30,7 @@ struct stCircle
 	stCircle(Point& pt1, Point& pt2, Point& pt3);///<三点生成圆
 
 	inline bool operator==(const stCircle &stC) const;
+	stCircle Shift(Point& pt) const;
 	inline bool Cross(stCircle& stC) const;//圆相交
 	inline bool Cross(stGenLine& stG) const;//圆与直线相交
 	inline bool Cross(stSegLine& stS) const;//圆与线段相交

@@ -18,6 +18,8 @@ void getTemps(string TempPath, std::vector<cv::Mat>& Temps);
 bool cvSameSzMatchs(std::vector<cv::Mat>& Temps, string Filename);
 bool FindCircleMain(Mat& Src, Mat& Dst, std::vector<Point>& vec_Pts, std::vector<stCircle>& vec_Circle, cv::Size sz);
 bool FindROICircle(Mat& Src, Mat& Dst, std::vector<Point>& vec_Centers, std::vector<stCircle>& vecCircle, cv::Size sz);
+bool DrawPoint(Mat& Img, Point& pt, Scalar color, char flag);
+bool drawCrossPoint(Mat& Img, Point pt, Scalar color, int halfSize);
 bool GetPointsFromCanny(Mat& Canny, std::vector<Point>& vec_Points);
 bool GetPointsFromBinary(Mat& Binary, std::vector<Point>& vec_Points);
 bool drawPointsRoi(Mat& Src, Mat& Dst, std::vector<Point>& vec_Centers);

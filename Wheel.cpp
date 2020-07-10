@@ -261,6 +261,16 @@ bool cvSameSzMatchs(std::vector<cv::Mat>& Temps, string Filename)
 	szMean.width /= Temps.size();
 
 	FindCircleMain(img2, img2, vec_Pts, vec_Circles, szMean);//根据点得到所有圆
+#ifdef _DEBUG
+	if (1)
+	{
+		string spath = "E:\\Pictures\\First\\Temp\\hot_ten";
+		MkDir(spath);
+		spath = spath +"\\" + to_string(matchMethod);
+		MkDir(spath);
+		cv::imwrite(spath + "\\" + "-" + to_string(g_j++) + ".jpg", img2);
+	}
+#endif // _DEBUG
 
 	
 
@@ -370,14 +380,15 @@ bool FindROICircle(Mat& Src, Mat& Dst,std::vector<Point>& vec_Centers, std::vect
 		Mat mBinary,mROIth,mROICanny;
 		cvtColor(mROI, mBinary, COLOR_BGR2GRAY);
 		GaussianBlur(mBinary, mBinary, Size(3, 3), 1.5, 1.5);
-		threshold(mBinary, mBinary, 0, 255, THRESH_OTSU);
+		threshold(mBinary, mBinary, 10, 100, THRESH_BINARY /*THRESH_OTSU*/);
 		Canny(mBinary, mROICanny,125,255);
 
 		//取点
 		vec_EdgePoints.clear();
 		bool bRsultEdge = GetPointsFromCanny(mROICanny, vec_EdgePoints);
 		//拟合
-		RansacPara stR(stRansacPara::RASANC_SEG_CIRCLE, 3.0, 0.5, 50);
+		//RansacPara stR(stRansacPara::RASANC_SEG_CIRCLE, 3.0, 0.0, 50);
+		RansacPara stR(stRansacPara::RASANC_SEG_CIRCLE, 2.0, 0.0, 50,15,80);
 		stCircle Circle;
 		if (bRsultEdge == true)
 		{
@@ -385,10 +396,10 @@ bool FindROICircle(Mat& Src, Mat& Dst,std::vector<Point>& vec_Centers, std::vect
 			ra.InputPoints(vec_EdgePoints);
 			ra.InputPara(stR);
 			ra.Run();
-
-			if (ra.GetResultCircle(Circle) && Circle.dR > 35)
+			ra.GetResultCircle(Circle);
+			if (Circle.dR > 0)
 			{
-				vecCircle.push_back(Circle);
+				vecCircle.push_back(Circle.Shift(ptTopLeft));
 			}
 		}
 
@@ -396,9 +407,89 @@ bool FindROICircle(Mat& Src, Mat& Dst,std::vector<Point>& vec_Centers, std::vect
 		
 		                                                                                                                                                                                                                      
 	}
+#ifdef _DEBUG
+	if (1)
+	{
+		Mat Img = Dst.clone();
+		Scalar color(0, 0, 255);
+		for (size_t i = 0; i < vecCircle.size(); i++)
+		{
+			circle(Img, vecCircle[i].ptCenter, vecCircle[i].dR, color);
+			DrawPoint(Img, vecCircle[i].ptCenter, color, '+');
+		}
+
+		string spath = "E:\\Pictures\\First\\Temp\\hot_ten\\roiCircle";
+		MkDir(spath);
+		spath = spath + "\\" + to_string(MATCH_METHOD);
+		MkDir(spath);
+		cv::imwrite(spath + "\\" + to_string(g_j++) + ".jpg", Img);
+	}
+#endif // _DEBUG
+
 
 	return true;
 }
+
+/**
+ * 在图里面画点集.
+ * 
+ * \param Img
+ * \param vec_pts
+ * \param color
+ * \param flag 'o':圆，'*':星号，'+':十字
+ * \return 
+ */
+bool DrawPoints(Mat& Img, vector<Point> vec_pts, Scalar color, char flag)
+{
+	for (size_t i = 0; i < vec_pts.size(); i++)
+		DrawPoint(Img, vec_pts[i], color, flag);
+	return true;
+}
+
+/**
+ * 在图里画点.
+ * 
+ * \param Img
+ * \param pt
+ * \param flag 'o':圆，'*':星号，'+':十字
+ * \return 
+ */
+bool DrawPoint(Mat& Img, Point &pt, Scalar color, char flag)
+{
+	switch (flag)
+	{
+	case 'o':cv::circle(Img, pt, 2, color);
+		break;
+	case '*':
+		
+		break;
+	case '+':drawCrossPoint(Img, pt, color, 2); 
+		break;
+	default:
+		break;
+	}
+
+	return true;
+}
+
+
+/**
+ * 绘制一个十字光标.
+ * 
+ * \param Img
+ * \param pt
+ * \param color
+ * \param halfSize
+ * \return 
+ */
+bool drawCrossPoint(Mat& Img, Point pt, Scalar color, int halfSize)
+{
+	cv::line(Img, Point(pt.x - halfSize, pt.y), Point(pt.x + halfSize, pt.y), color);
+	cv::line(Img, Point(pt.x, pt.y - halfSize), Point(pt.x, pt.y + halfSize), color);
+
+	return true;
+}
+
 /**
  * 从canny图像中取出边缘点.
  * 

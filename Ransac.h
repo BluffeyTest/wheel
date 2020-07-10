@@ -26,8 +26,12 @@ typedef struct stRansacPara
 	double dScale;//最小拟合点数比例，若为0，则取最大，否则一般取至少0.5
 	int nIters;//最大迭代次数
 
-	stRansacPara():type(RASANC_SEG_LINE), dInner(2.0), dScale(0.9), nIters(50){}
-	stRansacPara(emFitType t, double in, double s, int it):type(t), dInner(in), dScale(s), nIters(it) {}
+	double dMinR;
+	double dMaxR;
+
+	stRansacPara():type(RASANC_SEG_LINE), dInner(2.0), dScale(0.9), nIters(50),dMinR(-1.0),dMaxR(-1.0){}
+	stRansacPara(emFitType t, double in, double s, int it):type(t), dInner(in), dScale(s), nIters(it) , dMinR(-1), dMaxR(-1){}
+	stRansacPara(emFitType t, double in, double s, int it, double min,double max):type(t), dInner(in), dScale(s), nIters(it) ,  dMinR(min), dMaxR(max){}
 
 }RansacPara;
 

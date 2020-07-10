@@ -34,6 +34,14 @@ inline bool stCircle::operator==(const stCircle &stC) const
     return false;
 }
 
+stCircle stCircle::Shift(Point& pt) const
+{
+    Point pt1 = this->ptCenter + pt;
+    return stCircle(pt1,this->dR);
+}
+
+
+
 inline bool stCircle::Cross(stCircle& stC) const
 {
     double dDist = sqrt(pow(this->ptCenter.x - stC.ptCenter.x, 2) + pow(this->ptCenter.y - stC.ptCenter.y, 2));

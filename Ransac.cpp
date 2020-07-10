@@ -97,7 +97,17 @@ bool Ransac::FitCircle()
         int nCurentInners = InnnerNums();
         if(nInners < nCurentInners)
         { 
-            m_Circle = m_CurrentCircle;
+            if (m_Para.dMaxR < 0.0 && m_Para.dMinR < 0.0)//是否检查半径
+            {
+                nInners = nCurentInners;
+                m_Circle = m_CurrentCircle;
+            }
+            else if (m_Para.dMaxR > 0.0 && m_Para.dMinR > 0.0
+                && (m_Circle.dR < m_Para.dMaxR || m_Circle.dR > m_Para.dMinR))//检查半径通过,还可以改成只检查最大或者最小
+            {
+                nInners = nCurentInners;
+                m_Circle = m_CurrentCircle;
+            }
         }
 
 
@@ -110,9 +120,16 @@ bool Ransac::FitCircle()
         //将最好的模型拿来做最小二乘
         //暂时直接扔出去
 
-
+		if (m_Para.dMaxR > 0.0 && m_Para.dMinR > 0.0
+			&& (m_Circle.dR> m_Para.dMaxR || m_Circle.dR < m_Para.dMinR)
+            )
+        {
+            Point pt(0, 0);
+            m_Circle = stCircle(pt, -1.);
+            return false;
+        }
     }
-    else if (dScale < m_Para.dScale)
+    else if (dScale < m_Para.dScale )
     {
         Point pt(0, 0);
         m_Circle = stCircle(pt, -1.);
@@ -138,6 +155,10 @@ bool Ransac::GetResultCircle(stCircle& stC)
     if (m_bCircle)
     {
         stC = m_Circle;
+    }
+    else
+    {
+        stC.dR = -1.0;
     }
     return m_bCircle;
 }
@@ -218,7 +239,7 @@ int Ransac::InnnerCircleNums()
     for (size_t i = 0; i < m_vec_Points.size(); i++)
     {
         double d = Distance(m_CurrentCircle.ptCenter, m_vec_Points[i]);//m_CurrentCircle.FromPoint(m_vec_Points[i]);
-        if ( fabs(d- m_Circle.dR)< m_Para.dInner)
+        if ( fabs(d- m_CurrentCircle.dR)< m_Para.dInner)
         {
             sum++;
         }
