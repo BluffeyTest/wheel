@@ -9,6 +9,14 @@
 #define USEROWN
 #endif // !COMPANY
 
+#ifdef COMPANY
+string g_sResultDir = "E:\\Result";
+#else
+string g_sResultDir = "F:\\Result";
+#endif // COMPANY
+
+
+
 
 
 
