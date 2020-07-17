@@ -74,6 +74,8 @@ void getFiles2(string path, vector<string>& files, vector<string>& ownname, emIm
         break;
     case emBmp:exdName = "\\*.bmp";
         break;
+    case emLog:exdName = "\\*.log";
+        break;
     default:
         break;
     }
@@ -98,6 +100,7 @@ void getFiles2(string path, vector<string>& files, vector<string>& ownname, emIm
         _findclose(hFile);
     }
 }
+
 
 /*
 @brief 检查或创建文件夹

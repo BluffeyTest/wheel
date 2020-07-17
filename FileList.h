@@ -13,7 +13,9 @@ using namespace std;
 enum emImageFileType
 {
     emJpg = 0,
-    emBmp
+    emBmp = 1,
+
+    emLog =10
 
 };
 
@@ -43,6 +45,8 @@ void Dir(string path, emImageFileType emtype, bool bExt/* = false*/);
 
 
 void getFiles2(string path, vector<string>& files, vector<string>& ownname, emImageFileType emtype, bool bExt = false);
+
+
 /*
 @brief 检查或创建文件夹
 */

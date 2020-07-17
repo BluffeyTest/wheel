@@ -103,7 +103,7 @@ bool Ransac::FitCircle()
                 m_Circle = m_CurrentCircle;
             }
             else if (m_Para.dMaxR > 0.0 && m_Para.dMinR > 0.0
-                && (m_Circle.dR < m_Para.dMaxR || m_Circle.dR > m_Para.dMinR))//检查半径通过,还可以改成只检查最大或者最小
+                && (m_CurrentCircle.dR < m_Para.dMaxR && m_CurrentCircle.dR > m_Para.dMinR))//检查半径通过,还可以改成只检查最大或者最小
             {
                 nInners = nCurentInners;
                 m_Circle = m_CurrentCircle;
