@@ -6,7 +6,7 @@
 #include"Struct2d.h"
 #include"Ransac.h"
 bool IsBiger(float *a, float *b);
-
+bool cvSameSzMatchs(std::vector<cv::Mat> &Temps, string Filename);
 void SingleConnect(cv::Mat grayImage, cv::Mat* dst);
 //void SingleConnect(cv::Mat grayImage, cv::Mat* dst, vector<vector<cv::Point>> &g_contours);
 void testflood();
@@ -15,7 +15,7 @@ bool testCircle2dMulti(cv::Mat* BinarySrc, std::vector<stCircle>* vCircles);
 bool cvMatch(cv::Mat& Temp, string Filename);
 bool cvMatch(cv::Mat& Temp, string Filename, string ownname);
 void getTemps(string TempPath, std::vector<cv::Mat>& Temps);
-bool cvSameSzMatchs(std::vector<cv::Mat>& Temps, string Filename);
+
 bool FindCircleMain(Mat& Src, Mat& Dst, std::vector<Point>& vec_Pts, std::vector<stCircle>& vec_Circle, cv::Size sz);
 bool FindROICircle(Mat& Src, Mat& Dst, std::vector<Point>& vec_Centers, std::vector<stCircle>& vecCircle, cv::Size sz);
 bool DrawPoint(Mat& Img, Point& pt, Scalar color, char flag);

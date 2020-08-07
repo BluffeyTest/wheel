@@ -1,75 +1,75 @@
 ﻿  Wheel.cpp
-E:\Programing\Wheel\Wheel\Wheel.cpp(260,31): warning C4267: “/=”: 从“size_t”转换到“_Tp”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(267,31): warning C4267: “/=”: 从“size_t”转换到“_Tp”，可能丢失数据
           with
           [
               _Tp=int
           ]
-E:\Programing\Wheel\Wheel\Wheel.cpp(261,30): warning C4267: “/=”: 从“size_t”转换到“_Tp”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(268,30): warning C4267: “/=”: 从“size_t”转换到“_Tp”，可能丢失数据
           with
           [
               _Tp=int
           ]
-E:\Programing\Wheel\Wheel\Wheel.cpp(417,51): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(523,7): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(525,36): warning C4267: “参数”: 从“size_t”转换到“_Tp”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(424,51): warning C4244: “参数”: 从“double”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(530,7): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(532,36): warning C4267: “参数”: 从“size_t”转换到“_Tp”，可能丢失数据
           with
           [
               _Tp=int
           ]
-E:\Programing\Wheel\Wheel\Wheel.cpp(574,34): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(623,35): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(623,65): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(623,66): warning C4244: “参数”: 从“double”转换到“_Tp”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(581,34): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(630,35): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(630,65): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(630,66): warning C4244: “参数”: 从“double”转换到“_Tp”，可能丢失数据
           with
           [
               _Tp=int
           ]
-E:\Programing\Wheel\Wheel\Wheel.cpp(623,36): warning C4244: “参数”: 从“double”转换到“_Tp”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(630,36): warning C4244: “参数”: 从“double”转换到“_Tp”，可能丢失数据
           with
           [
               _Tp=int
           ]
-E:\Programing\Wheel\Wheel\Wheel.cpp(819,31): warning C4267: “/=”: 从“size_t”转换到“_Tp”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(826,31): warning C4267: “/=”: 从“size_t”转换到“_Tp”，可能丢失数据
           with
           [
               _Tp=int
           ]
-E:\Programing\Wheel\Wheel\Wheel.cpp(820,30): warning C4267: “/=”: 从“size_t”转换到“_Tp”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(827,30): warning C4267: “/=”: 从“size_t”转换到“_Tp”，可能丢失数据
           with
           [
               _Tp=int
           ]
-E:\Programing\Wheel\Wheel\Wheel.cpp(894,57): warning C4244: “参数”: 从“unsigned __int64”转换到“double”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(898,45): warning C4244: “参数”: 从“unsigned __int64”转换到“double”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(977,23): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(977,45): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(981,23): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(1001,7): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(1003,30): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(1004,16): warning C4267: “=”: 从“size_t”转换到“_Tp”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(901,57): warning C4244: “参数”: 从“unsigned __int64”转换到“double”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(905,45): warning C4244: “参数”: 从“unsigned __int64”转换到“double”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(984,23): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(984,45): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(988,23): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(1008,7): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(1010,30): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(1011,16): warning C4267: “=”: 从“size_t”转换到“_Tp”，可能丢失数据
           with
           [
               _Tp=int
           ]
-E:\Programing\Wheel\Wheel\Wheel.cpp(1005,16): warning C4267: “=”: 从“size_t”转换到“_Tp”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(1012,16): warning C4267: “=”: 从“size_t”转换到“_Tp”，可能丢失数据
           with
           [
               _Tp=int
           ]
-E:\Programing\Wheel\Wheel\Wheel.cpp(1024,7): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(1026,30): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(1027,16): warning C4267: “=”: 从“size_t”转换到“_Tp”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(1031,7): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(1033,30): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(1034,16): warning C4267: “=”: 从“size_t”转换到“_Tp”，可能丢失数据
           with
           [
               _Tp=int
           ]
-E:\Programing\Wheel\Wheel\Wheel.cpp(1028,16): warning C4267: “=”: 从“size_t”转换到“_Tp”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(1035,16): warning C4267: “=”: 从“size_t”转换到“_Tp”，可能丢失数据
           with
           [
               _Tp=int
           ]
-E:\Programing\Wheel\Wheel\Wheel.cpp(1096,23): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(1359,36): warning C4244: “参数”: 从“_Tp”转换到“_Tp”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(1103,23): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(1366,36): warning C4244: “参数”: 从“_Tp”转换到“_Tp”，可能丢失数据
           with
           [
               _Tp=float
@@ -78,7 +78,7 @@ E:\Programing\Wheel\Wheel\Wheel.cpp(1359,36): warning C4244: “参数”: 从�
           [
               _Tp=int
           ]
-E:\Programing\Wheel\Wheel\Wheel.cpp(1359,29): warning C4244: “参数”: 从“_Tp”转换到“_Tp”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(1366,29): warning C4244: “参数”: 从“_Tp”转换到“_Tp”，可能丢失数据
           with
           [
               _Tp=float
@@ -87,21 +87,12 @@ E:\Programing\Wheel\Wheel\Wheel.cpp(1359,29): warning C4244: “参数”: 从�
           [
               _Tp=int
           ]
-E:\Programing\Wheel\Wheel\Wheel.cpp(1359,44): warning C4244: “参数”: 从“_Tp”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(1366,44): warning C4244: “参数”: 从“_Tp”转换到“int”，可能丢失数据
           with
           [
               _Tp=float
           ]
-E:\Programing\Wheel\Wheel\Wheel.cpp(1360,36): warning C4244: “参数”: 从“_Tp”转换到“_Tp”，可能丢失数据
-          with
-          [
-              _Tp=float
-          ]
-          and
-          [
-              _Tp=int
-          ]
-E:\Programing\Wheel\Wheel\Wheel.cpp(1360,29): warning C4244: “参数”: 从“_Tp”转换到“_Tp”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(1367,36): warning C4244: “参数”: 从“_Tp”转换到“_Tp”，可能丢失数据
           with
           [
               _Tp=float
@@ -110,10 +101,19 @@ E:\Programing\Wheel\Wheel\Wheel.cpp(1360,29): warning C4244: “参数”: 从�
           [
               _Tp=int
           ]
-E:\Programing\Wheel\Wheel\Wheel.cpp(1434,19): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(1435,29): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(1518,106): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-E:\Programing\Wheel\Wheel\Wheel.cpp(306): warning C4715: “cvSameSzMatchs”: 不是所有的控件路径都返回值
-E:\Programing\Wheel\Wheel\Wheel.cpp(628): warning C4715: “FindPointsRoi”: 不是所有的控件路径都返回值
-E:\Programing\Wheel\Wheel\Wheel.cpp(856): warning C4715: “cvMatchs”: 不是所有的控件路径都返回值
+E:\Programing\Wheel\Wheel\Wheel.cpp(1367,29): warning C4244: “参数”: 从“_Tp”转换到“_Tp”，可能丢失数据
+          with
+          [
+              _Tp=float
+          ]
+          and
+          [
+              _Tp=int
+          ]
+E:\Programing\Wheel\Wheel\Wheel.cpp(1441,19): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(1442,29): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(1525,106): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+E:\Programing\Wheel\Wheel\Wheel.cpp(313): warning C4715: “cvSameSzMatchs”: 不是所有的控件路径都返回值
+E:\Programing\Wheel\Wheel\Wheel.cpp(635): warning C4715: “FindPointsRoi”: 不是所有的控件路径都返回值
+E:\Programing\Wheel\Wheel\Wheel.cpp(863): warning C4715: “cvMatchs”: 不是所有的控件路径都返回值
   Wheel.vcxproj -> E:\Programing\Wheel\x64\Debug\Wheel.exe

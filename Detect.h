@@ -1,7 +1,7 @@
 #pragma once
 #ifndef DETECT_H
 #define DETECT_H
-#include"Defines.h"
+//#include"Defines.h"
 #include"Struct2d.h"
 #include"Ransac.h"
 

@@ -8,7 +8,7 @@
 #include <direct.h>
 #include<vector>
 
-using namespace std;
+
 
 enum emImageFileType
 {
@@ -41,16 +41,16 @@ enum emImageFileType
 //};
 
 //这个函数最好能用预处理该来同时能够兼容两个系统。
-void Dir(string path, emImageFileType emtype, bool bExt/* = false*/);
+void Dir(std::string path, emImageFileType emtype, bool bExt/* = false*/);
 
 
-void getFiles2(string path, vector<string>& files, vector<string>& ownname, emImageFileType emtype, bool bExt = false);
+void getFiles2(std::string path, std::vector<std::string>& files, std::vector<std::string>& ownname, emImageFileType emtype, bool bExt = false);
 
 
 /*
 @brief 检查或创建文件夹
 */
-void MkDir(string sDir);
+void MkDir(std::string sDir);
 
 
 #endif // !FILELIST_H

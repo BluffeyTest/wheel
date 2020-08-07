@@ -31,6 +31,13 @@ int main()
 	String sPath("E:\\Pictures\\First");
 	String sName("E:\\Pictures\\First\\car_9.jpg");
 	string sTempPath("E:\\Pictures\\First\\Temp");
+
+#ifdef GAOYUAN
+	sPath="E:\\Pictures\\car-GAOYUAN";
+	sName= "E:\\Pictures\\First\\car_9.jpg";
+	sTempPath="E:\\Pictures\\First\\Temp";
+#endif // GAOYUAN
+
 #endif // COMPANY
 
 #ifdef USEROWN
