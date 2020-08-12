@@ -110,12 +110,25 @@ inline double stGenLine::FromPoint(Point &pt) const
     return dDistance;
 }
 
+/*inline*/ bool stGenLine::operator||(const stGenLine &stG) const
+{
+
+    double dScale = this->da / stG.da;
+    const double eps = 1e-6;
+    if (fabs(this->da - stG.da * dScale) < eps
+        && fabs(this->db - stG.db * dScale) < eps
+        )
+        return true;
+    return false;
+}
+
 inline bool stGenLine::operator==(const stGenLine& stG) const
 {
     double dScale = this->da / stG.da;
-    if (this->da == stG.da * dScale
-        && this->db == stG.db * dScale
-        && this->dc == stG.dc * dScale
+    const double eps = 1e-6;
+    if (fabs(this->da - stG.da * dScale)< eps
+        && fabs(this->db - stG.db * dScale)< eps
+        && fabs(this->dc - stG.dc * dScale)<eps
         )
         return true;
     return false;

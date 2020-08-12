@@ -14,6 +14,7 @@ enum emImageFileType
 {
     emJpg = 0,
     emBmp = 1,
+    emPng  =2,
 
     emLog =10
 

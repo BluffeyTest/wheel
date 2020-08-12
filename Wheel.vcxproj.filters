@@ -33,6 +33,9 @@
     <ClCompile Include="Detect.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="FitAfterRnn.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Algo.h">
@@ -54,6 +57,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Ransac.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FitAfterRnn.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

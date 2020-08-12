@@ -97,7 +97,9 @@ struct stGenLine
 	inline bool Cross(stSegLine& stS) const;///<直线与线段相交
 	inline double FromPoint(Point &pt) const;///<直线与点的距离
 
-	inline bool operator==(const stGenLine& stG) const;
+	/*inline*/ bool operator||(const stGenLine &stG)const;///<两直线平行
+
+	inline bool operator==(const stGenLine& stG) const;///<两直线斜率在一定范围内判定为同一条
 	friend ostream& operator << (ostream& os, stGenLine& stG);
 };
 

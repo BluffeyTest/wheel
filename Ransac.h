@@ -70,15 +70,19 @@ public:
 	bool InputPoints(std::vector<Point> &vec_pts);//传入点集
 	bool InputPara(RansacPara& stR);//传入参数
 	bool Run();//运行
-	bool FitSegLine();//拟合直线
-	bool FitSegLines();//拟合多条直线；
-	bool FitCircle();//拟合圆；
-	bool FitCircles();//拟合多个圆
+	
+	
+	
 
 	bool GetResult();//这个写法不好，传出不单一
 	bool GetResultCircle(stCircle& stC);
 
 private:
+	bool FitSegLine();//拟合直线
+	bool FitSegLines();//拟合多条直线；
+	bool FitCircle();//拟合圆；
+	bool FitCircles();//拟合多个圆
+
 	int SumvUcharVctor(vector<uchar> &vec_s);
 	bool RandIndex(int ndataLen, vector<int>& vec_Index);
 	int InnnerNums();//判断当前的模型的在内点距离内的点数

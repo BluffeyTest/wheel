@@ -76,6 +76,9 @@ void getFiles2(string path, vector<string>& files, vector<string>& ownname, emIm
         break;
     case emLog:exdName = "\\*.log";
         break;
+    case emPng:exdName = "\\*.png";
+        break;
+        
     default:
         break;
     }

@@ -23,7 +23,7 @@ int g_j = 0;
 void testConnectAnalyze(cv::Mat& src);
 
 
-int main()
+int Matchmain()
 {
 	Mat mImage, mImage2;
 
@@ -1116,7 +1116,7 @@ bool cvMatch(cv::Mat &Temp, string Filename,string ownname)
 }
 
 
-int premain()//用分割的方法的主函数
+int segmain()//用分割的方法的主函数
 {
 	Mat mImage, mImage2;
 
@@ -1149,6 +1149,51 @@ int premain()//用分割的方法的主函数
 		detect.run();
 	}
 
+	return 0;
+}
+
+int segAfterRnnmain()//用分割的方法处理神经网络分割后的图
+{
+	Mat mImage, mImage2;
+
+	string sPath = "E:\\Pictures\\AfterRnn";
+	string sImgPath = "E:\\Pictures\\AfterRnn\\img";
+	string sLabelPath = "E:\\Pictures\\AfterRnn\\label_for_GuoF";
+
+	//Dir(sPath, emJpg);
+	std::vector<String> vsFileNames, vsFileOwnNames; //图像的文件名
+	std::vector<String> vsLabelNames, vsLabelOwnNames; //标签图像的文件名
+
+	getFiles2(sImgPath, vsFileNames, vsFileOwnNames, emJpg);
+	getFiles2(sLabelPath, vsLabelNames, vsLabelOwnNames, emPng);
+	if (vsFileNames.size() != vsLabelNames.size()) {
+		cout << "number of Img does't match nuber of label" << endl;
+		return -1;
+	}
+
+	stRegment stR;
+	stR.spatialRad = 50;  //空间窗口大小
+	stR.colorRad = 40;   //色彩窗口大小
+	stR.maxPyrLevel = 2;  //金字塔层数
+
+	AlgoAfterRnn detect;
+	detect.setPath(sPath);
+	detect.setRegment(stR);
+	for (size_t i = 0; i < vsFileNames.size(); i++)
+	{
+		//获得无猴嘴文件名作比较
+		if (true/*vsFileOwnNames[i] == vsLabelOwnNames[i]*/)//这儿不能直接这样写，得先切割
+		{
+			detect.setFileName(vsFileNames[i], vsFileOwnNames[i]);
+			detect.setLabelName(vsLabelNames[i], vsLabelOwnNames[i]);
+			detect.run();
+		}
+		else
+		{
+			cout << "ImgFile doesn't match labelFile!" << endl;
+		}
+		
+	}
 	return 0;
 }
 
@@ -1540,3 +1585,91 @@ void SingleConnect(cv::Mat grayImage, cv::Mat* dst)
 
 
 
+int fitAfterRnn()
+{
+	//Mat mImage, mLabel;
+	cout << "start" << endl;
+
+	string sPath = "E:\\Pictures\\AfterRnn";
+	string sImgPath = "E:\\Pictures\\AfterRnn\\img";
+	string sLabelPath = "E:\\Pictures\\AfterRnn\\label_for_GuoF";
+
+	//Dir(sPath, emJpg);
+	std::vector<String> vsFileNames, vsFileOwnNames; //图像的文件名
+	std::vector<String> vsLabelNames, vsLabelOwnNames; //标签图像的文件名
+
+	getFiles2(sImgPath, vsFileNames, vsFileOwnNames, emJpg);
+	getFiles2(sLabelPath, vsLabelNames, vsLabelOwnNames, emPng);
+	if (vsFileNames.size() != vsLabelNames.size()) {
+		cout << "number of Img does't match nuber of label" << endl;
+		return -1;
+	}
+
+
+
+
+	for (size_t i = 0; i < vsFileNames.size(); i++)
+	{
+		
+		//获得无后缀文件名作比较
+		if (true/*vsFileOwnNames[i] == vsLabelOwnNames[i]*/)//这儿不能直接这样写，得先切割
+		{
+			vector<vector<Point>> coutours;
+			Mat mImage = imread(vsFileNames[i]);
+			Mat mLabel = imread(vsLabelNames[i],0);
+
+			//如果有图没有读取成功，直接跳过
+			if (mImage.size() == Size(0, 0)
+				|| mLabel.size() == Size(0, 0))
+				continue;
+
+			Mat show = mImage.clone();
+
+			findContours(mLabel, coutours, RETR_CCOMP, CHAIN_APPROX_NONE);
+			for (int j = 0; j < coutours.size(); j++)
+			{
+				Point pt = coutours[j][0];
+				if (mLabel.at<uchar>(pt) != 2) continue;//不是轮子类型就跳过
+
+
+				vector<Point> &vRoiPts = coutours[j];
+				RansacPara  stPara(RansacPara::RASANC_SEG_CIRCLE, 5.0, 0.0, 500);
+				Ransac rc;
+				stCircle Circle;
+				rc.InputPara(stPara);
+				rc.InputPoints(vRoiPts);//直接用这些点是不好的
+				rc.Run();
+				rc.GetResultCircle(Circle);
+				if (Circle.dR < 0)
+				{
+					cout << vsFileNames[i] << "fit circle wrong!" << endl;
+				}
+				
+				drawCrossPoint(show, Circle.ptCenter);
+				circle(show, Circle.ptCenter, Circle.dR, Scalar(0, 255, 0),2);
+			}
+
+			string sWritePath = sPath + "\\ShowResult";
+			MkDir(sWritePath);
+			imwrite(sWritePath + "\\" + vsFileOwnNames[i], show);
+
+		}
+		else
+		{
+			cout << "ImgFile doesn't match labelFile!" << endl;
+		}
+
+	}
+	cout << "end" << endl;
+	return 0;
+}
+
+
+int main()
+{
+	bool b(true);
+	if (b)
+	{
+		return fitAfterRnn();
+	}
+}

@@ -59,8 +59,9 @@ void Algo::Regment()
 	int colorRad = this->m_Regement.colorRad;
 	int maxPyrLevel = this->m_Regement.maxPyrLevel;
 	cout << "do pyrMeanShiftFiltering" << endl;
-	pyrMeanShiftFiltering(m_GuImage, m_RegImage, spatialRad, colorRad, maxPyrLevel); //色彩聚类平滑滤波
+	pyrMeanShiftFiltering(m_GuImage, m_MeanImage, spatialRad, colorRad, maxPyrLevel); //色彩聚类平滑滤波
 	//imshow("res", mRegment);
+	m_RegImage = m_MeanImage.clone();
 	RNG rng = theRNG();
 	Mat mask(m_RegImage.rows + 2, m_RegImage.cols + 2, CV_8UC1, Scalar::all(0));  //掩模
 	int colorId(1);
@@ -267,6 +268,9 @@ void Algo::run()
 
 
 
+
+
+
 void DelSingleValMat(cv::Mat* Src, cv::Mat* Dst, int val)
 {
 	for (size_t i = 0; i < Src->rows; i++)
@@ -284,4 +288,149 @@ void DelSingleValMat(cv::Mat* Src, cv::Mat* Dst, int val)
 
 		}
 	}
+}
+
+
+
+
+
+AlgoAfterRnn::AlgoAfterRnn()
+{
+}
+
+AlgoAfterRnn::~AlgoAfterRnn()
+{
+}
+
+
+/**
+ * 读图和预处理.
+ * 其实可以不要预处理，预处理反而模糊
+ */
+void AlgoAfterRnn::PreProress()
+{
+	bool bGussian(false);
+	this->m_SrcImage = imread(this->m_stFile.fileHoleName);
+	if (bGussian) {
+		cv::GaussianBlur(this->m_SrcImage, this->m_GuImage, cv::Size(3, 3), 1.5, 1.5);
+	}
+	else
+	{
+		this->m_GuImage = this->m_SrcImage;
+	}
+	this->m_Labels = imread(this->m_stFile.labelHoleName,0);
+	
+	this->FindLabelPoints();
+
+}
+
+//
+void AlgoAfterRnn::setPath(string sPath)
+{
+	this->m_stFile.filePath = sPath;
+
+	//设置源图像和label图像标签的文件夹
+
+
+}
+
+
+/**
+ * 设置传进来的一对图的.
+ * 
+ * \param fileHoleName
+ * \param fileOwnName
+ */
+void AlgoAfterRnn::setFileName(string fileHoleName, string fileOwnName)
+{
+	this->m_stFile.fileHoleName = fileHoleName;
+	this->m_stFile.flieName = fileOwnName;
+}
+
+void AlgoAfterRnn::setLabelName(string labelHoleName, string lebelName)
+{
+	this->m_stFile.labelHoleName = labelHoleName;
+	this->m_stFile.lebelName = lebelName;
+}
+
+void AlgoAfterRnn::Regment()
+{
+	int spatialRad = this->m_Regement.spatialRad;
+	int colorRad = this->m_Regement.colorRad;
+	int maxPyrLevel = this->m_Regement.maxPyrLevel;
+	cout << "do pyrMeanShiftFiltering" << endl;
+	bool bMeanShift(true);
+	if (bMeanShift) {
+		pyrMeanShiftFiltering(m_GuImage, m_MeanImage, spatialRad, colorRad, maxPyrLevel); //色彩聚类平滑滤波
+	}
+	else {
+		m_MeanImage = m_GuImage.clone();
+	}
+	
+	//imshow("res", mRegment);
+
+	m_RegImage = m_MeanImage.clone();
+	RNG rng = theRNG();
+	Mat mask(m_RegImage.rows + 2, m_RegImage.cols + 2, CV_8UC1, Scalar::all(0));  //掩模
+	int colorId(1);
+
+	vvLabelPts;
+	for (size_t i = 0; i < vvLabelPts.size(); i++)//这儿该点集
+	{
+		for (size_t j = 0; j < vvLabelPts[i].size(); j++)//这儿改点集的点
+		{
+			Point pt = vvLabelPts[i][j];
+			if (mask.at<uchar>(pt.y,pt.x)== 0 //非0处即为1，表示已经经过填充，不再处理
+				/*&& m_Labels.at<uchar>(pt.y, pt.x) !=i+1*/)//这样判断无效
+			{
+				//Scalar newVal(rng(256), rng(256), rng(256));
+				//Scalar newVal(rng(2)*255, rng(2)*255, 125/*rng(256)*/);//分割成只有四种颜色，方便二值化，每个通道只有两种颜色，前景和背景，
+
+				Scalar newVal(/*rng(4)*/125, 125, i * 61 + 61);
+				/*Scalar newVal(colorId, 125, 125);
+				colorId++;
+				colorId = colorId == 256 ? 0 : colorId;*/
+
+				floodFill(m_RegImage, mask, pt/*Point(x, y)*/, newVal, 0, Scalar::all(5), Scalar::all(5), /*flags =*/ 8); //执行漫水填充
+				//cout << "do floodFill" << endl;
+			}
+		}
+	}
+	string sPath = this->m_stFile.filePath;
+	string sOwnName = this->m_stFile.flieName;
+	MkDir(sPath + "\\Pyr");
+	imwrite(sPath + "\\Pyr\\" + to_string(spatialRad) + to_string(colorRad) + to_string(maxPyrLevel) + sOwnName, m_RegImage);
+	cout << "do pyrMeanShiftFiltering done" << endl;
+}
+
+void AlgoAfterRnn::run()
+{
+	this->PreProress();//读入和滤波
+	this->Regment();//分割
+	//this->FindAllCircles();//找到分割后图里面的所有的圆
+	//checkCircles();//检查符合要求的圆
+	//提取所得圆的roi并进行预处理，预处理是指进行新的分割和二值化。
+}
+
+void AlgoAfterRnn::FindLabelPoints()
+{
+
+	int nLabelMax = 2;//后续可以考虑拓展
+	vvLabelPts.clear();
+	vvLabelPts.resize(nLabelMax);
+
+	Size sz = this->m_Labels.size();
+	for (size_t x = 0; x < sz.width; x++)
+	{
+		for (size_t y = 0; y < sz.height; y++)
+		{
+			uchar val = m_Labels.at<uchar>(y, x);
+			if (val > 0) {
+				vvLabelPts[val - 1].push_back(Point(x, y));
+			}
+			
+		}
+	}
+	
+
 }
